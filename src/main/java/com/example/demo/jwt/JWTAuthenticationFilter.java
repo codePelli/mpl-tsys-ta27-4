@@ -6,6 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +26,10 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
-
+	
+	@Autowired
     private JWTService jwtService;
+	@Autowired
     private LibraryUserDetailsService libraryUserDetailsService;
 
     @Override
@@ -38,6 +42,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")){
             token = authHeader.substring(7);
             userName = jwtService.extractUsernameFromToken(token);
+            System.out.println(authHeader);
+            System.out.println(token);
         }
         if (userName != null & SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = libraryUserDetailsService.loadUserByUsername(userName);
