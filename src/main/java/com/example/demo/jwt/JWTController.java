@@ -25,8 +25,8 @@ import org.json.JSONException;
 @RequiredArgsConstructor
 @RequestMapping("/login")
 public class JWTController {
-    private final JWTService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private JWTService jwtService;
+    private AuthenticationManager authenticationManager;
 
     @PostMapping
     public Object getTokenForAuthenticatedUser(@RequestBody JWTAuthenticationRequest authRequest){
